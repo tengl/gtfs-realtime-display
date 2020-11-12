@@ -2,14 +2,14 @@
 
 import argparse
 import sys
-import urllib2
+from urllib.request import urlopen
 
 sys.path.append("lib")
 
 from lib import gtfs_realtime_pb2
 
 def Display(feed_message):
-    print feed_message
+    print(feed_message)
 
 parser = argparse.ArgumentParser(description='Read a GTFS-realtime Protocol Buffer file.')
 parser.add_argument("-f", "--file", dest="file",
@@ -29,7 +29,7 @@ if args['file']:
     feed_message.ParseFromString(f.read())
     f.close()
 else:
-    response = urllib2.urlopen(args['url'])
+    response = urlopen(args['url'])
     feed_message.ParseFromString(response.read())    
 
 Display(feed_message)

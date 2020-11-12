@@ -51,9 +51,9 @@ this file*.
 __author__ = 'robinson@google.com (Will Robinson)'
 
 try:
-  from cStringIO import StringIO
+  from io import StringIO
 except ImportError:
-  from StringIO import StringIO
+  from io import StringIO
 import struct
 import weakref
 
@@ -758,7 +758,7 @@ def _AddMergeFromStringMethod(message_descriptor, cls):
         raise message_mod.DecodeError('Unexpected end-group tag.')
     except IndexError:
       raise message_mod.DecodeError('Truncated message.')
-    except struct.error, e:
+    except struct.error as e:
       raise message_mod.DecodeError(e)
     return length   # Return this for legacy reasons.
   cls.MergeFromString = MergeFromString
@@ -952,7 +952,7 @@ class _Listener(object):
   In order to support semantics like:
 
     foo.bar.baz.qux = 23
-    assert foo.HasField('bar')
+'    assert foo.HasField('bar')
 
   ...child objects must have back references to their parents.
   This helper class is at the heart of this support.
